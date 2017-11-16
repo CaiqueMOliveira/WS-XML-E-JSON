@@ -67,7 +67,7 @@ if (isset($_GET["btnsalvar"]))
             
                 <table id="tblcadastro">
                   <tr>
-                    <td colspan="2">Gerando XML</td>
+                    <td colspan="2">Gerando JSON</td>
                   </tr>
                   <tr>
                     <td>Nome:</td>
@@ -112,20 +112,39 @@ if (isset($_GET["btnsalvar"]))
                
               </tr>
 			  <?php 
-				
-			  ?>
+    
+                /*
+                CAMINHO DO ARQUIVO .json QUE SERA FEITO A LEITURA
+                OBS.: E OBRIGATORIO O CAMINHO DA URL DO SITE ATE O ARQUIVO
+                */
+				$url="http://localhost/inf3m/turmaA/xml/dados.json";
+                
+                /*
+                0 ou false - retorno caso falhe
+                null - inicia a leitura dos dados a partir de um dado especifico  
+                null - retornar o tamanho do arquivo
+                */                               
+                // RECUPERA OS DADOS DO ARQUIVO JSON PARA LEITURA
+                $arquivoJSON = file_get_contents($url,0,null,null);
+	            
+                // CONVERTE OS DADOS EM FORMATO JSON PARA UM ARRAY
+                $dadosArray = json_decode($arquivoJSON);
+                               
+                $qtdeItens = count($dadosArray);
+                
+                for($i = 0; $i < $qtdeItens; $i++){
+                    
+              ?>
 				  <tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><?php echo($dadosArray->nome) ?></td>
+					<td><?php echo($dadosArray->telefone) ?></td>
+					<td><?php echo($dadosArray->celular) ?></td>
+					<td><?php echo($dadosArray->email) ?></td>
+					<td><?php echo($dadosArray->obs) ?></td>
 					
 				  </tr>
             <?php 
-				
-				
-			
+                }
 			?>
             </table>
 
